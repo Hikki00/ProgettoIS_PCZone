@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <COMPONENTE IDComponente='1' Nome='Componente1' Prezzo='22.12' Descrizione='Componente1' DataUscita='2021-12-01 00:00:00' Immagine='https://www.assemblarepconline.it/wp-content/uploads/2019/03/come-scegliere-componenti-pc.png' Tipo='CPU' LinkAcquisto='https://www.assemblarepconline.it/wp-content/uploads/2019/03/come-scegliere-componenti-pc.png'/>
+    <COMPONENTE IDComponente='2' Nome='ComponenteModificata' Prezzo='120.0' Descrizione='Componente2' DataUscita='2021-12-01 00:00:00' Immagine='https://www.assemblarepconline.it/wp-content/uploads/2019/03/come-scegliere-componenti-pc.png' Tipo='GPU' LinkAcquisto='https://www.assemblarepconline.it/wp-content/uploads/2019/03/come-scegliere-componenti-pc.png'/>
+	<UTENTEREGISTRATO Nickname="Lore2134" Password="79cea72184093a59d4ba48496846dc1d" Email="lore21@gmail.com" Foto="www.test.com/image" Descrizione="QuestoEunTestQuestoEunTestQuestoEunTestQuestoEunTestQuestoEunTest" isGestore="0"></UTENTEREGISTRATO>
+    <UTENTEREGISTRATO Nickname="Gest21" Password="79cea72184093a59d4ba48496846dc1d" Email="gest@gmail.com" Foto="www.test.com/img" Descrizione="QuestoEunTestQuestoEunTestQuestoEunTestQuestoEunTestQuestoEunTest" isGestore="1"></UTENTEREGISTRATO>
+    <UTENTEREGISTRATO Nickname="Lore3124" Password="79cea72184093a59d4ba48496846dc1d" Email="lore@gmail.com" Foto="www.test.com/img" Descrizione="QuestoEunTestQuestoEunTestQuestoEunTestQuestoEunTestQuestoEunTest" isGestore="0"></UTENTEREGISTRATO>
+    <GENERE Nome="GPU"></GENERE>
+    <GENERE Nome="MOBO"></GENERE>  
+    <GUIDA IDGuida="1" Titolo="Best PC Builld 2022" Data="2022-02-02  00:00:00" Articolo="Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum"></GUIDA>
+    <GUIDA IDGuida="2" Titolo="Best PC Builld Of Last Years" Data="2023-01-05 00:00:00" Articolo="QuestoEunTestQuestoEunTestQuestoEunTestQuestoEunTest"></GUIDA>
+    <CONFIGURAZIONE IDOrdine="1" DataCompletamento="2020-02-05 00:00:00" Nickname="Lore2134"></CONFIGURAZIONE>
+    <CONFIGURAZIONE IDOrdine="2" DataCompletamento="2021-05-06 00:00:00" Nickname="Lore3124"></CONFIGURAZIONE>
+    <INCLUSO IDOrdine="1" IDComponente="1"></INCLUSO>
+    <INCLUSO IDOrdine="2" IDComponente="1"></INCLUSO>
+    <SUGGERISCE IDGuida="1" IDComponente="2"></SUGGERISCE>
+    <SUGGERISCE IDGuida="2" IDComponente="2"></SUGGERISCE>
+    <WISHLIST IDWishlist="1" Nickname="Lore2134"></WISHLIST>
+    <WISHLIST IDWishlist="2" Nickname="Gest21"></WISHLIST>
+    <CONTIENE IDWishlist="1" Nickname="Lore2134" IDComponente="1"></CONTIENE>
+    <CONTIENE IDWishlist="2" Nickname="Lore3124" IDComponente="1"></CONTIENE>
+    <RECENSIONE Titolo="Componente buona" Punteggio="5" Testo="QuestaEUnaRecensioneQuestaEUnaRecensioneQuestaEUnaRecensione" DataCreazione="2023-01-05 00:00:00" IDComponente="1" Nickname="Lore2134"></RECENSIONE>
+    <RECENSIONE Titolo="Componente Ottima" Punteggio="4" Testo="QuestaEUnaRecensioneQuesta" DataCreazione="2023-03-05 00:00:00" IDComponente="1" Nickname="Lore3124"></RECENSIONE>
+</dataset>
+
+
