@@ -1,0 +1,138 @@
+DROP SCHEMA  IF EXISTS pcZone;
+create schema pcZone;
+use pcZone;
+ 
+ 
+ create table Componente
+(
+	IDComponente INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	Nome VARCHAR(70) NOT NULL,
+	Prezzo FLOAT NOT NULL,
+	Descrizione VARCHAR(750) NOT NULL,
+	DataUscita DATE NOT NULL,        
+    Immagine VARCHAR(2048) DEFAULT NULL,
+    Tipo VARCHAR(40) NOT NULL,
+    LinkAcquisto VARCHAR(2048) NOT NULL
+);                   
+                                                
+ 
+create table Guida
+(
+	IDGuida	 INT  NOT NULL AUTO_INCREMENT,                                 
+	Titolo 		VARCHAR(50) NOT NULL,
+	Data   	DATE NOT NULL,
+	Articolo   	VARCHAR(1500) NOT NULL,                
+	PRIMARY KEY(IDGuida)
+);
+
+   
+
+create table Suggerisce
+(
+	IDGuida INT NOT NULL,
+	IDComponente INT NOT NULL,
+	PRIMARY KEY(IDGuida, IDComponente),
+	FOREIGN KEY(IDGuida) REFERENCES Guida(IDGuida) ON UPDATE cascade ON DELETE cascade,
+	FOREIGN KEY(IDComponente) REFERENCES Componente(IDComponente) ON UPDATE cascade ON DELETE cascade
+);
+ 
+ 
+create table UtenteRegistrato
+(
+	Nickname VARCHAR(50) PRIMARY KEY NOT NULL,
+	Password VARCHAR(50) NOT NULL,        
+	Email    	VARCHAR(45) NOT NULL,
+	Foto VARCHAR(2048) DEFAULT NULL,
+	Descrizione   	VARCHAR(1500) NOT NULL, 
+	isGestore TINYINT NOT NULL DEFAULT FALSE
+);
+
+ 
+create table Wishlist
+(
+	IDWishlist INT NOT NULL AUTO_INCREMENT,
+	Nickname VARCHAR(50) NOT NULL,
+	PRIMARY KEY(IDWishlist, Nickname),
+	FOREIGN KEY(Nickname) REFERENCES UtenteRegistrato(Nickname) ON UPDATE cascade ON DELETE cascade
+);
+ 
+create table Contiene
+(
+	IDWishlist INT NOT NULL ,
+	Nickname VARCHAR(50) NOT NULL,
+	IDComponente INT NOT NULL,
+	PRIMARY KEY(IDWishlist, Nickname, IDComponente),
+	FOREIGN KEY(IDWishlist) REFERENCES Wishlist(IDWishlist) ON UPDATE cascade ON DELETE cascade,
+	FOREIGN KEY(Nickname) REFERENCES Wishlist(Nickname) ON UPDATE cascade ON DELETE cascade,
+	FOREIGN KEY(IDComponente) REFERENCES Componente(IDComponente) ON UPDATE cascade ON DELETE cascade
+);
+
+create table Configurazione
+(
+	IDOrdine	 INT PRIMARY KEY  NOT NULL  AUTO_INCREMENT,
+	DataCompletamento 	 DATETIME NOT NULL,
+    Nickname VARCHAR(50) NOT NULL,
+    FOREIGN KEY(Nickname) REFERENCES UtenteRegistrato(Nickname) ON UPDATE NO ACTION  ON DELETE NO ACTION
+);
+
+create table Incluso
+(
+	IDOrdine	 INT  NOT NULL, 
+	IDComponente	 INT  NOT NULL,
+  	PRIMARY KEY(IDOrdine,IDComponente),
+	FOREIGN KEY(IDComponente) REFERENCES Componente(IDComponente) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	FOREIGN KEY(IDOrdine) REFERENCES Configurazione(IDOrdine) ON UPDATE cascade ON DELETE cascade   
+);
+
+create table Recensione
+(
+	Titolo VARCHAR(50) NOT NULL,
+	Punteggio INT NOT NULL,
+	Testo VARCHAR(250) NOT NULL,
+	DataCreazione DATE NOT NULL,
+	IDComponente INT NOT NULL,
+	Nickname VARCHAR(50) NOT NULL,
+	PRIMARY KEY(Titolo, IDComponente, Nickname),
+	FOREIGN KEY(IDComponente) REFERENCES Componente(IDComponente) ON UPDATE cascade ON DELETE cascade,
+	FOREIGN KEY(Nickname) REFERENCES UtenteRegistrato(Nickname) ON UPDATE cascade ON DELETE cascade	
+);
+
+create table Genere
+(
+	Nome  	 VARCHAR(40) NOT NULL,
+	PRIMARY KEY(Nome)
+);
+
+
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('RTX 3090 Ti 24GB','1899.99','Le GeForce RTX™ 3090 Ti e 3090 sono "Big Ferocious GPU" (BFGPU) straordinarie con prestazioni di classe TITAN. Basate su Ampere, l''architettura NVIDIA RTX di seconda generazione, offrono prestazioni doppie di ray-tracing e IA con Ray Tracing (RT) Core, Tensor Core e nuovi multiprocessori di streaming avanzati. Includono inoltre 24 GB di memoria G6X, il tutto per fornire un''esperienza eccezionale per gamer e creativi. Manufattore: NVIDIA, Memoria: 24GB, Tipo Memoria : GDDR6X, Core Clock:1560 MHz, Boost Clock : 1860 MHz TDP:450W','2022-03-29','https://m.media-amazon.com/images/I/312T-6TRpsL.jpg','GPU','https://amzn.eu/d/6C05lGp'); 
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('RTX 3080 10GB','1280.99','Le schede grafiche GeForce RTX™ 3080 Ti e RTX 3080 offrono le prestazioni ultra che i giocatori bramano grazie ad Ampere, l''architettura RTX di seconda generazione di NVIDIA. Sono costruite con RT Core e Tensor Core potenziati, nuovi multiprocessori di streaming e una memoria G6X superveloce, il tutto per offrirti una straordinaria esperienza di gioco. Manufattore: NVIDIA, Memoria: 10GB, Tipo Memoria : GDDR6X, Core Clock:1440 MHz, Boost Clock : 1830 MHz, TDP:370W ','2020-09-17','https://m.media-amazon.com/images/I/81lBqpfoncS.__AC_SY300_SX300_QL70_ML2_.jpg','GPU','https://amzn.eu/d/dRXpRmW');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('AMD Ryzen 5 5600X 3.7 GHz 6-Core Processor','202.99','Sii inarrestabile con la velocità senza precedenti dei processori desktop AMD Ryzen™ 5000 G-Series, che tu stia giocando ai giochi più recenti, progettando il prossimo grattacielo o elaborando dati scientifici. Con i processori desktop AMD Ryzen™ , sei in testa.. Manufattore: AMD, Core Count : 6, Performance Core Clock: 3.7 GHZ, Performance Boost Clock: 4.6GHz, TDP: 65W','2020-11-05','https://m.media-amazon.com/images/I/61vGQNUEsGL.__AC_SY300_SX300_QL70_ML2_.jpg','CPU','https://amzn.eu/d/4sfr5yV');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('Intel Core i7-13700KF 3.4 GHz 16-Core','488.99','Processore sbloccato Intel Core i7 di tredicesima generazione. Manufattore: Intel, Core Count : 16, Performance Core Clock: 3.4 GHZ, Performance Boost Clock: 5.4GHz, TDP: 125W','2022-11-23','https://m.media-amazon.com/images/I/41yn+l+iodL._AC_SX679_.jpg','CPU','https://amzn.eu/d/en9Ti0n');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('MSI MAG Z690 ATX','318.99','Per i giocatori che cercano una piattaforma Intel Core di 12a Generazione con PCI-e 5.0 x16 per le schede grafiche, memoria DDR5 accelerata ed una vasta gamma di opzioni di storage M.2 Gen4. La scheda madre gaming MSI MAG Z690 TORPEDO è la tua arma per la conquista del campo di battaglia. Manufattore: NVIDIA, Manufattore: MSI, Socket:LGA1700, Form: ATX, Memory Type: DDR4, Slots:4','2021-04-05','https://m.media-amazon.com/images/I/81UFeZN10LL._AC_SX522_.jpg','MOBO','https://amzn.eu/d/3PI3bWG');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('Gigabyte B550M DS3H ATX','121.99','Le schede madri GIGABYTE B550 massimizzano il potenziale del PC con la tecnologia AMD StoreMI. StoreMI accelera i dispositivi di archiviazione tradizionali per ridurre i tempi di avvio e migliorare l''esperienza utente complessiva. Manufattore: Gigabyte, Socket:AM4, Form: ATX, Memory Type: DDR4, Slots:4','2022-03-29','https://m.media-amazon.com/images/I/71ZMMyOQfOL._AC_SX679_.jpg','MOBO','https://amzn.eu/d/bO0LOqG');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('Corsair RAM 16GB (8 X 2) DDR4 3000MHz','72.99',' Corsair Vengeance LPX Memoria per Desktop a elevate Prestazioni Manufattore: Corsair, Modules: 2x8GB, Tipo Tipo Memoria : GDDR4-3000Mhz','2020-05-21','https://m.media-amazon.com/images/I/71EXOwFSf-L._AC_SX522_.jpg','RAM','https://amzn.eu/d/8hbfKNY');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('Crucial RAM 16GB DDR4 2933MHz','47.99',' Le memorie per computer fissi Crucial sono progettate per migliorare la velocità e l''affidabilità dei sistemi e rappresentano uno dei metodi migliori e più convenienti per aumentare le prestazioni del vostro computer. Manufattore: Crucial, Modules:1x16GB, Tipo Tipo Memoria : GDDR4-2933Mhz','2020-02-15','https://m.media-amazon.com/images/I/61j3CTxnXVL._AC_SX522_.jpg','RAM','https://amzn.eu/d/g61QGRe');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('WD BLACK 2TB SN850X NVMe SSD M.2','262.99','Di’ addio ai lunghi tempi di caricamento, ai problemi di throttling, ai ritardi e ai pop-in con l’SSD WD_BLACK SN850X NVMe, l’unità per un gaming di alto livello. Manufattore: WD, Dimensione: 2TB','2022-08-29','https://m.media-amazon.com/images/I/51vzDJevuiL._AC_SX522_.jpg','Storage','https://amzn.eu/d/0JH6ivv');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('Samsung Memorie SSD 870 Evo 1 Tb','103.99','Limite di velocità sequenziale massimo dell''interfaccia SATA di 560-530 MBs. Gli utenti nella vita di tutti i giorni possono ora godere di prestazioni SSD di livello professionale. La tecnologia Intelligent Turbo Write accelera le velocità di scrittura e mantiene prestazioni elevate. Manufattore: Samsung, Dimensione: 1TB','2021-07-29','https://m.media-amazon.com/images/I/81X+BcNLSeL._AC_SX522_.jpg','Storage','https://amzn.eu/d/dXggRdC');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('Cooler Master Masterbox Q300L','62.99','Mini Tower Case Matx Con Visione Completa Pannello Laterale,Nero Manufattore: Cooler Master Spazio GPU: 360mm','2020-06-29','https://m.media-amazon.com/images/I/81I9Ef0fOIL._AC_SX522_.jpg','Case','https://amzn.eu/d/hbT3exh');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('NZXT H7 Flow ATX','170.99','Nzxt H7 Flow Case Da Gioco Per Pc Mid Tower Atx, Porta I/O Usb Tipo-C Anteriore, Pannello Laterale In Vetro Temperato A Sgancio Rapido, Nero Bianco,48 x 23 x 50.5 cm; 10 Kg Manufattore: NZXT Spazio GPU: 400 mm','2023-01-01','https://m.media-amazon.com/images/I/61vBDFZB46L._AC_SX522_.jpg','Case','https://amzn.eu/d/bB70g5R');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('Corsair HX1000i Alimentatore ATX','262.99','Corsair HX1000i Alimentatore ATX Interamente Modulare Ultra-Silenzioso (Tre Connettori EPS12V, Ventola con Cuscinetto Fluidodinamico, Efficienza Certificata 80 PLUS Platinum) Nero; Manufattore: Corsair, Tipo: ATX, Wattage:1000W','2021-03-22','https://m.media-amazon.com/images/I/61-BbHtSiJL._AC_SX679_.jpg','PSU','https://amzn.eu/d/eFs21w2');
+INSERT INTO Componente(Nome,Prezzo,Descrizione,DataUscita,Immagine,Tipo,LinkAcquisto) VALUES ('NZXT C1000 PSU ','160.99','NZXT C1000 PSU (2022) - PA-0G1BB-UK - 1000 Watt PSU - 80+ Gold Certified - Completamente modulari - Cavi a maniche - Alimentatore ATX Gaming; Manufattore: NZXT, Tipo: ATX, Wattage:1000W','2021-02-21','https://m.media-amazon.com/images/I/512LbjcQN8L._AC_SX679_.jpg','PSU','https://amzn.eu/d/i3XQPrR');
+
+
+INSERT INTO Guida(Titolo,Data,Articolo) VALUES ('Best PC Build August 2022','2022-08-03','Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum');
+INSERT INTO Guida(Titolo,Data,Articolo) VALUES('Best PC Build September2022','2022-09-03','Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum');
+INSERT INTO Guida(Titolo,Data,Articolo) VALUES('Best Economic PC Build 2021','2021-12-03','Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum');
+INSERT INTO Guida(Titolo,Data,Articolo) VALUES('Best EconomicPC Build November 2022','2022-11-16','Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum');
+INSERT INTO Guida(Titolo,Data,Articolo) VALUES('Best Economic PC Build December 2022','2022-12-03','Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum');
+INSERT INTO Guida(Titolo,Data,Articolo) VALUES('Best PC Build January 2023','2023-01-03','Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum');
+
+INSERT INTO Genere(Nome) VALUES ('CPU');
+INSERT INTO Genere(Nome) VALUES ('GPU');
+INSERT INTO Genere(Nome) VALUES ('Storage');
+INSERT INTO Genere(Nome) VALUES ('MOBO');
+INSERT INTO Genere(Nome) VALUES ('RAM');
+INSERT INTO Genere(Nome) VALUES ('Case');
+INSERT INTO Genere(Nome) VALUES ('PSU');
+
+INSERT INTO utenteregistrato (NICKNAME, PASSWORD, EMAIL, FOTO, DESCRIZIONE, ISGESTORE) VALUES ("gest1", MD5("aaabbbAAA111"), "gest1@gmail.com", "", "", 1);

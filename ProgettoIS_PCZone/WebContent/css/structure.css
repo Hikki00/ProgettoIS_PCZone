@@ -1,0 +1,14 @@
+body {
+ font-family: Verdana, Helvetica, sans-serif;
+ font-size: 9pt;
+ background: #FFF;
+ color: #000;
+}
+
+header {
+ font-size: 12pt;
+ border-bottom: 1px solid silver;
+ color: #009;
+ text-align: center;
+}
+
